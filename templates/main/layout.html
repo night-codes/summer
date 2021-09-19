@@ -1,0 +1,165 @@
+{{ define "access-deny" }}
+	{{template "header" .}}
+		<p class="access-deny"><b>This resource is not available.</b> <br />For more information, contact your administrator.</p>
+	{{template "footer" .}}
+{{ end }}
+
+{{ define "header" }}
+{{ $user := user (site "login")}}
+{{ $panel := var "panel"}}
+{{ $tabs := tabs $panel (site "module") $user}}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no">
+		<meta name="theme-color" content="#354463">
+		<link rel="shortcut icon" href="{{site "path"}}/pkgFiles/favicon.ico">
+		<link rel="icon" sizes="192x192" href="{{site "path"}}/pkgFiles/favicon192x192.png">
+		<title>{{ $tabs.title }}{{ if not (eq (site "title") $tabs.title) }} - {{ site "title" }}{{ end }}</title>
+		<style type="text/css">
+			@import url("{{site "path"}}/pkgFiles/build/style.css");
+			.w-title:before {background-image: url("{{site "path"}}/pkgFiles/images/title.png");}
+			.navbar-default {background-image: url("{{site "path"}}/pkgFiles/images/title.png");}
+			.w-wrap {background-image: url("{{site "path"}}/pkgFiles/images/bg.png");}
+		</style>
+		<script type="text/javascript">
+			window.panelPath="{{site "path"}}/";
+			window.moduleName="{{site "module"}}";
+			window.moduleAction="{{site "action"}}";
+			window.ajaxUrl = '{{site "path"}}/ajax/{{site "ajax"}}/';
+			window.socketUrl = '{{site "path"}}/websocket/{{site "socket"}}/';
+		</script>
+		<script type="text/javascript" src="{{site "path"}}/pkgFiles/build/main.js"></script>
+		{{ range site "js" }}<script type="text/javascript" src="{{.}}"></script>{{ end }}
+		{{ range site "css" }}<link rel="stylesheet" href="{{.}}">{{ end }}
+	</head>
+
+	<body>
+		<div id="all">
+			{{ template "menu" . }}
+			<div>
+				<div class="container" id="navbar-tabs">
+					<table>
+						<tr>
+							<td id="navbar-tabs-title">
+							{{ if eq (site "allow") "true" }}
+								<h2 style="padding: 0">{{ if $tabs.icon }}<i class="fa fa-{{$tabs.icon}} fa-lg" aria-hidden="true"></i>{{ end }}{{ $tabs.title }}{{ if not (eq (site "title") $tabs.title) }} <i class="fa fa-angle-double-right" aria-hidden="true"></i> {{ site "title" }}{{ end }}</h2>
+							{{ else }}
+								<h2 style="padding: 0"><span class="fa fa-power-cord fa-lg"></span> Access denied</h2>
+							{{ end }}
+							</td>
+							<td id="right-panel" rowspan="2">
+								<div></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="navbar-tabs-content" class="unselectable">
+							{{if eq (site "allow") "true"}}
+								{{ range $tabs.list }}
+								<a href="{{var "path"}}{{ .Link }}" class="{{if .Active}}active{{ end }}">{{ .Title }}</a>
+								{{ end }}
+							{{ end }}
+							</td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+			<div class="container" id="content">
+				<div id="inside-content">
+{{ end }}
+
+{{ define "footer" }}
+				</div>
+			</div>
+			<div class="back-to-top">
+				<a href="#top">
+					<span class="fa fa-chevron-up"></span>
+				</a>
+			</div>
+			<footer>
+				<div class="container">
+					© 2015-2017 <a style="color: #444444" href="https://github.com/night-codes/summer"><b>Summer panel</b></a>
+				</div>
+			</footer>
+		</div>
+		{{ block "dots" .}}{{ end }}
+		{{ dot "layout/script.js" }}
+	</body>
+</html>
+{{ end }}
+
+
+
+{{ define "menu" }}
+	{{ $user := user (site "login")}}
+	{{ $panel := var "panel"}}
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<a name="top"></a>
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="fa fa-ellipsis-dots-v"></span>
+				</a>
+				<a class="navbar-brand" href="{{if var "path"}}{{var "path"}}{{ else }}/{{ end }}"><span class="fa fa-home-2"></span> </a>
+				{{ if eq (site "allow") "true" }}
+					<h2>{{ site "title" }}</h2>
+				{{ else }}
+					<h2><span class="fa fa-power-cord fa-lg"></span> Access denied</h2>
+				{{ end }}
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					{{ template "subMenu" (var "mainMenu") }}
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="li-search">
+						<input type="text" class="allsearch" placeholder="Search" class="form-control">
+					</li>
+					<li class="navbar-notify dropdown" >
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fa fa-drawer2"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<b class="title">No new notifications.</b>
+							</li>
+							<li><a href="#">See all notifications.</a></li>
+						</ul>
+					</li>
+					<li class="dropdown {{if false}}active{{ end }}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span> {{ $user.Name }} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							{{ range menu $panel (var "dropMenu") $user }}{{ if not .SubMenu }}{{ template "menuItem" . }}{{ end }}{{ end }}
+							{{if not $user.Demo}}
+							<li class="divider"></li>
+							<li><a href="{{var "path"}}/logout">Logout</a></li>
+							{{ end }}
+						</ul>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+{{ end }}
+
+{{ define "menuItem" }}
+	<li class="">
+		<a href="{{var "path"}}{{ .Link }}">{{ .Title }}</a>
+	</li>
+{{ end }}
+
+{{ define "subMenu" }}
+	{{ $user := user (site "login")}}
+	{{ $panel := var "panel"}}
+	{{ range menu $panel . $user}}{{ if and .SubMenu .Current }}
+	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ .Title }} <b class="caret"></b></a>
+		<ul class="dropdown-menu">
+			{{ template "subMenu" .Current }}
+		</ul>
+	</li>
+	{{ else }}{{ template "menuItem" . }}{{ end }}{{ end }}
+{{ end }}

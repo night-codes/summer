@@ -1,0 +1,157 @@
+/*
+ * Табы на странице
+ */
+
+div.tabs {
+	margin: 1em 0;
+	padding: 0px;
+	position: relative;
+	.user-select(none);
+	display: block;
+}
+
+div.tabs {
+	&>* {
+		display: inline-block;
+		padding: 0.5em 0.7em;
+		margin: 0px;
+		cursor: pointer;
+		color: #555555;
+		font-style: normal;
+		text-decoration: none;
+		background: #f3f3f3;
+		border: none;
+		margin-right: 0.3rem;
+		.border-radius(3px)
+	}
+	&>*.active {
+		.gradient (desaturate(lighten(@active-tab-bgcolor, 5%), 5%), @active-tab-bgcolor);
+		color: contrast(@active-tab-bgcolor, #666666);
+		text-decoration: none;
+		.box-shadow(inset 0px -35px 24px -25px rgba(0, 0, 0, 0.05));
+		.text-shadow(0 -1px 0 rgba(0, 0, 0, 0.18))
+	}
+	&>*>span, &>*.active:hover>span, &>*.locked:hover>span {
+		border-bottom: solid 2px transparent;
+	}
+	&>*.locked {
+		color: #999999 !important;
+		cursor: default;
+	}
+	&>*:hover>span {
+		border-bottom: solid 2px #777777;
+	}
+	&>*>span.fa:before {
+		padding-right: 0.25em;
+	}
+}
+
+// Navbar tabs
+div#navbar-tabs {
+	z-index: 2;
+	position: relative;
+	margin-top: 0.4rem;
+	table {
+		background: transparent;
+		border-collapse: collapse !important;
+		border: none !important;
+		width: 100%;
+		tr, td {
+			border: none !important;
+			background: transparent !important;
+			text-align: right;
+			vertical-align: bottom;
+			padding: 0.4rem 0;
+		}
+		td#navbar-tabs-content {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-align: left;
+			padding-bottom: 0 !important;
+			text-overflow: ellipsis;
+		}
+		td#navbar-tabs-title {
+			text-align: left;
+			vertical-align: middle;
+			padding: 0 !important;
+		}
+		.fa {
+			cursor: inherit;
+			margin: 0;
+			color: inherit;
+		}
+	}
+	h2 {
+		color: #333333;
+		.text-shadow(none);
+		.fa {
+			font-size: 1.2rem;
+			color: #333333;
+			cursor: default;
+			&.fa-lg {
+				font-size: 1.6rem;
+				vertical-align: middle;
+				position: relative;
+				top: -1px;
+				&:before {
+					margin-right: 0.5rem;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width:1010px) {
+	div#navbar-tabs h2 {
+		display: none;
+	}
+}
+
+td#navbar-tabs-content {
+	&>a, &>button {
+		display: inline-block;
+		padding: 0.5rem 0.6rem;
+		margin: 0px;
+		cursor: pointer;
+		font-style: normal;
+		text-decoration: none;
+		border: none;
+		margin-right: 0.3rem;
+		.border-radius(3px 3px 0px 0px);
+		font-size: 1.1rem;
+		background: #e3e3e3;
+		color: #666666;
+		&>span {
+			.opacity(0.8)
+		}
+		&:hover {
+			background: #d4d4d4;
+			color: #555555;
+		}
+		&.active, &.active:hover {
+			background: #ffffff;
+			color: #333333;
+			text-decoration: none;
+			.opacity(1);
+			.box-shadow(-4px -2px 5px -2px rgba(0, 0, 0, 0.04), 4px -2px 5px -2px rgba(0, 0, 0, 0.04));
+			.text-shadow(none);
+			cursor: default;
+		}
+		&.locked, &.locked:hover {
+			.opacity(0.5);
+		}
+		&>span.fa:before {
+			padding-right: 0.25em;
+		}
+	}
+}
+
+div.tabs-content {
+	display: none;
+	position: relative;
+}
+
+div.tabs-content.active {
+	display: block;
+}

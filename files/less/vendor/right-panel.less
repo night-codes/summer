@@ -1,0 +1,14 @@
+td#right-panel>div {
+	margin-right: -0.3rem;
+	padding-bottom: 0.2rem !important;
+	&>button {
+		background-color: @button-green-bgcolor;
+		.gradient (desaturate(lighten(@button-green-bgcolor, 5%), 5%), @button-green-bgcolor);
+		color: contrast(@button-green-bgcolor, #999999);
+		&.grey {
+			background: #777;
+			.gradient (desaturate(lighten(#777, 5%), 5%), #777);
+			color: #ffffff;
+		}
+	}
+}

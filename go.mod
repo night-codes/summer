@@ -3,7 +3,7 @@ module github.com/night-codes/summer
 go 1.16
 
 require (
-	github.com/gin-gonic/gin v1.7.4
+	github.com/gin-gonic/gin v1.7.7
 	github.com/gorilla/websocket v1.4.2
 	github.com/kennygrant/sanitize v1.2.4
 	github.com/night-codes/conv v1.0.2

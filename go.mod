@@ -11,7 +11,7 @@ require (
 	github.com/night-codes/mgo-ai v0.0.0-20190929120331-0ce697f507bb
 	github.com/night-codes/mgo-wrapper v0.0.0-20160222150331-6f8cfc18b1c1
 	github.com/urfave/cli v1.22.5
-	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272
+	golang.org/x/crypto v0.1.0
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 
